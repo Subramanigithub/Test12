@@ -1,0 +1,25 @@
+stages:
+  - build
+  - test
+  - analyze
+
+build:
+  stage: build
+  script:
+    - make build
+  artifacts:
+    paths:
+      - build/
+
+test:
+  stage: test
+  script:
+    - make test
+
+analyze:
+  stage: analyze
+  script:
+    - sonar-scanner -Dsonar.projectKey=myprojectkey -Dsonar.sources=./src/ -Dsonar.host.url=https://sonarqube.example.com
+  dependencies:
+    - build
+    - test
